@@ -3,14 +3,13 @@
 namespace Bluetel\EzSelectionTwigBundle\Tests\Twig\Extension;
 
 use Bluetel\EzSelectionTwigBundle\Twig\Extension\EzSelectionValue;
-use eZ\Publish\Core\FieldType\Selection\Value as EzSelectionFieldValue;
+use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Field;
+use eZ\Publish\Core\FieldType\Selection\Value as EzSelectionFieldValue;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
-
+use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
 use Twig_Test_IntegrationTestCase;
 
 /**
@@ -27,25 +26,26 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
         $ezSelectionValue->setEzSelectionHelper(
             $this->getMockEzSelectionHelper()
         );
+
         return array(
-            $ezSelectionValue
+            $ezSelectionValue,
         );
     }
 
     /**
      * Get Mock eZSelectionHelper. We have to return a mock value for the
-     * getContentType function
+     * getContentType function.
      *
      * @return EzSelection
      */
     protected function getMockEzSelectionHelper()
     {
         $service = $this->getMock(
-            "Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection",
+            'Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection',
             array('getContentType'),
             array(
                 $this->getMock('eZ\\Publish\\API\\Repository\\Repository'),
-                array('ezselection')
+                array('ezselection'),
             )
         );
 
@@ -61,9 +61,9 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
                         1 => 'Test_a',
                         2 => 'Test_b',
                         3 => 'Test_c',
-                        4 => 'Test_d'
+                        4 => 'Test_d',
                     )
-                )
+                ),
             )
         );
         $service->method('getContentType')
@@ -72,13 +72,14 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
                     $mockContentType
                 )
             );
+
         return $service;
     }
 
     /**
-     * Get a Mock content object
+     * Get a Mock content object.
      *
-     * @param  Field[] $fields array of the fields for the object.
+     * @param Field[] $fields array of the fields for the object.
      *
      * @return Content a content object with the fields inside.
      */
@@ -87,13 +88,13 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
         return new Content(
             array(
                 'internalFields' => $fields,
-                'versionInfo' => new VersionInfo(
+                'versionInfo'    => new VersionInfo(
                     array(
                         'contentInfo' => new ContentInfo(
                             array('mainLanguageCode' => 'eng-GB')
-                        )
+                        ),
                     )
-                )
+                ),
             )
         );
     }
@@ -101,8 +102,8 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
     /**
      * Get a eZSelectionField value.
      *
-     * @param  string $identifier      the identifier of the field.
-     * @param  int[]  $selectedOptions array of the selected option ids for this field
+     * @param string $identifier      the identifier of the field.
+     * @param int[]  $selectedOptions array of the selected option ids for this field
      *
      * @return Field
      */
@@ -110,9 +111,9 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
     {
         return new Field(
             array(
-                'value'=> new EzSelectionFieldValue($selectedOptions),
+                'value'              => new EzSelectionFieldValue($selectedOptions),
                 'fieldDefIdentifier' => $identifier,
-                'languageCode' => 'eng-GB'
+                'languageCode'       => 'eng-GB',
             )
         );
     }
@@ -120,8 +121,8 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
     /**
      * Get a mock ContentType with field definition in it.
      *
-     * @param  string            $identifier       the identifier of the ContentType
-     * @param  FieldDefinition[] $fieldDefinitions the field definitions of the ContentType.
+     * @param string            $identifier       the identifier of the ContentType
+     * @param FieldDefinition[] $fieldDefinitions the field definitions of the ContentType.
      *
      * @return ContentType
      */
@@ -129,8 +130,8 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
     {
         return new ContentType(
             array(
-                'identifier' => $identifier,
-                'fieldDefinitions' => $fieldDefinitions
+                'identifier'       => $identifier,
+                'fieldDefinitions' => $fieldDefinitions,
             )
         );
     }
@@ -138,23 +139,24 @@ class EzSelectionValueTest extends Twig_Test_IntegrationTestCase
     /**
      * Get a field definition object.
      *
-     * @param  string      $identifier          identifier of the field definition.
-     * @param  string      $fieldTypeIdentifier field type identifier of the field definition.
-     * @param  array|null  $fieldOptions        the additional options for this field.
+     * @param string     $identifier          identifier of the field definition.
+     * @param string     $fieldTypeIdentifier field type identifier of the field definition.
+     * @param array|null $fieldOptions        the additional options for this field.
      *
      * @return FieldDefinition
      */
     public function getFieldDefinition($identifier, $fieldTypeIdentifier, $fieldOptions = null)
     {
         $data = array(
-                    'identifier' => $identifier,
-                    'fieldTypeIdentifier' => $fieldTypeIdentifier
+                    'identifier'          => $identifier,
+                    'fieldTypeIdentifier' => $fieldTypeIdentifier,
                 );
         if ($fieldOptions != null) {
             $data['fieldSettings'] = array(
-                                        'options' => $fieldOptions
+                                        'options' => $fieldOptions,
                                     );
         }
+
         return new FieldDefinition(
             $data
         );

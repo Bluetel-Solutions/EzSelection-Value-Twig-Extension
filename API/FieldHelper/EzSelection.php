@@ -9,8 +9,8 @@ interface EzSelection
     /**
      * Get the option names for a field value.
      *
-     * @param  Content $content the content object to get the field from.
-     * @param  string  $field   the identifier of the field.
+     * @param Content $content the content object to get the field from.
+     * @param string  $field   the identifier of the field.
      *
      * @return string[] Array of the selected option names.
      */
