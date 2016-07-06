@@ -1,0 +1,14 @@
+services:
+    bluetel.ezselection_twig.core.fieldhelper.ezselection:
+        class: Bluetel\EzSelectionTwigBundle\Core\FieldHelper\EzSelection
+        arguments: 
+            - @ezpublish.api.repository
+            - %bluetel.ezseletion_twig.core.fieldhelper.ezselection.accepted_datatypes%
+
+    bluetel.ezselection_twig.twig.extension.ezselection_value:
+        class: Bluetel\EzSelectionTwigBundle\Twig\Extension\EzSelectionValue
+        public: false
+        calls: 
+            - [setEzselectionHelper, [@bluetel.ezselection_twig.core.fieldhelper.ezselection]]
+        tags:
+            - { name: twig.extension }

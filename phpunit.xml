@@ -1,0 +1,29 @@
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         colors="auto"
+        >
+    <testsuites>
+        <testsuite name="Bluetel\EzSelectionTwigBundle\Tests\Core">
+            <directory>Tests/Core</directory>
+        </testsuite>
+        <testsuite name="Bluetel\EzSelectionTwigBundle\Twig">
+            <directory>Tests/Twig</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>.</directory>
+            <exclude>
+                <directory>DependencyInjection</directory>
+                <directory>Resources</directory>
+                <directory>Tests</directory>
+                <directory>vendor</directory>
+                <directory>var</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

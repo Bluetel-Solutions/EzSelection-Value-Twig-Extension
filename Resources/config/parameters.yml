@@ -1,0 +1,2 @@
+parameters:
+    bluetel.ezseletion_twig.core.fieldhelper.ezselection.accepted_datatypes: ['ezselection']

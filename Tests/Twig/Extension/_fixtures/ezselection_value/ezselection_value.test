@@ -1,0 +1,18 @@
+--TEST--
+"ezselection_value" function
+--TEMPLATE--
+{% set data = ezselection_value( content, 'test' ) %}
+Options: {{data|join(',')}}
+--DATA--
+return array(
+    'content' => $this->getMockContentObject(
+        array(
+            $this->getField('test', array(1,3)),
+            $this->getField('test_x', array(2,4))
+        )
+    )
+);
+return array();
+
+--EXPECT--
+Options: Test_a,Test_c
