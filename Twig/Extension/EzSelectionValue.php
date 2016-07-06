@@ -4,7 +4,6 @@ namespace Bluetel\EzSelectionTwigBundle\Twig\Extension;
 
 use Bluetel\EzSelectionTwigBundle\API\FieldHelper\EzSelection as EzSelectionHelper;
 use eZ\Publish\API\Repository\Values\Content\Content;
-
 use Twig_Extension;
 use Twig_SimpleFunction;
 
@@ -16,6 +15,7 @@ class EzSelectionValue extends Twig_Extension
      * @var EzSelectionHelper
      */
     protected $ezSelectionHelper;
+
     /**
      * Returns the name of the extension.
      *
@@ -33,19 +33,19 @@ class EzSelectionValue extends Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new Twig_SimpleFunction(
                 'ezselection_value',
-                array($this, 'getSelectionValues')
-            )
-        );
+                [$this, 'getSelectionValues']
+            ),
+        ];
     }
 
     /**
-     * Get selection value names from a content for a particular field
+     * Get selection value names from a content for a particular field.
      *
-     * @param  Content $content         The content object to get the value from.
-     * @param  string  $fieldIdentifier The field identifier to get the value for.
+     * @param Content $content         The content object to get the value from.
+     * @param string  $fieldIdentifier The field identifier to get the value for.
      *
      * @return string[] array of option names as strings.
      */
@@ -62,6 +62,7 @@ class EzSelectionValue extends Twig_Extension
     public function setEzSelectionHelper(EzSelectionHelper $ezSelectionHelper)
     {
         $this->ezSelectionHelper = $ezSelectionHelper;
+
         return $this;
     }
 }

@@ -2,14 +2,13 @@
 
 namespace Bluetel\EzSelectionTwigBundle\Core\FieldHelper;
 
-use Bluetel\EzSelectionTwigBundle\API\FieldHelper\EzSelection as EzSelectionHelperInterface;
 use Bluetel\EzSelectionTwigBundle\API\FieldHelper\Exceptions\FieldIdentifierNotFoundException;
 use Bluetel\EzSelectionTwigBundle\API\FieldHelper\Exceptions\InvalidFieldTypeException;
+use Bluetel\EzSelectionTwigBundle\API\FieldHelper\EzSelection as EzSelectionHelperInterface;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Field;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
 use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
-
 
 class EzSelection implements EzSelectionHelperInterface
 {
@@ -26,19 +25,19 @@ class EzSelection implements EzSelectionHelperInterface
     protected $acceptedFieldTypeStrings;
 
     /**
-     * __construct
+     * __construct.
      *
-     * @param          $repository                eZPublish's API Repository.
-     * @param string[] $acceptedFieldTypeStrings  Field types that will be processed.
+     * @param          $repository               eZPublish's API Repository.
+     * @param string[] $acceptedFieldTypeStrings Field types that will be processed.
      */
-    public function __construct($repository, $acceptedFieldTypeStrings = array())
+    public function __construct($repository, $acceptedFieldTypeStrings = [])
     {
         $this->repository = $repository;
         $this->acceptedFieldTypeStrings = $acceptedFieldTypeStrings;
     }
 
     /**
-     * {@inherit}
+     * {@inherit}.
      */
     public function getOptionNamesForField(Content $content, $fieldIdentifier)
     {
@@ -47,7 +46,7 @@ class EzSelection implements EzSelectionHelperInterface
         $fieldDefinition = $contentType->getFieldDefinition($fieldIdentifier);
 
         if (!$fieldDefinition instanceof FieldDefinition) {
-            throw new FieldIdentifierNotFoundException("Field", $fieldIdentifier);
+            throw new FieldIdentifierNotFoundException('Field', $fieldIdentifier);
         }
 
         if (!in_array($fieldDefinition->fieldTypeIdentifier, $this->acceptedFieldTypeStrings)) {
@@ -63,8 +62,8 @@ class EzSelection implements EzSelectionHelperInterface
     /**
      * Get the selection option names field definition.
      *
-     * @param  Field           $contentField   The content field to get the options from.
-     * @param  FieldDefinition $fieldDefintion The field definition to get the option names from.
+     * @param Field           $contentField   The content field to get the options from.
+     * @param FieldDefinition $fieldDefintion The field definition to get the option names from.
      *
      * @return string[] array of the selection option names
      */
@@ -72,7 +71,7 @@ class EzSelection implements EzSelectionHelperInterface
     {
         $fieldSettings = $fieldDefintion->getFieldSettings();
 
-        $optionNames = array();
+        $optionNames = [];
 
         foreach ($contentField->value->selection as $selectionOptionId) {
             $optionNames[$selectionOptionId] = $fieldSettings['options'][$selectionOptionId];
