@@ -1,17 +1,17 @@
 <?php
 
-
 namespace EzSystems\EzPriceBundle\Tests\Core\MultiPrice;
 
 use Bluetel\EzSelectionTwigBundle\Core\FieldHelper\EzSelection;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\FieldType\Selection\Value as EzSelectionValue;
+use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Field;
+use eZ\Publish\Core\FieldType\Selection\Value as EzSelectionValue;
+use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
+use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
+
 /**
  * @covers \Bluetel\EzSelectionTwigBundle\Core\FieldHelper\EzSelection
  */
@@ -23,24 +23,23 @@ class EzSelectionTest extends TestCase
      */
     public function testGetOptionNamesFromFieldDefintionEmptyOptions()
     {
-
         $service = new EzSelection(
                         $this->getMock('eZ\\Publish\\API\\Repository\\Repository'),
-                        array('ezselection')
+                        ['ezselection']
                     );
 
-        $field = $this->getField('test', array());
+        $field = $this->getField('test', []);
 
         $fieldDefinition = $this->getFieldDefinition(
                                 'test',
                                 'ezselection',
-                                array(
-                                    1 => 'Test'
-                                )
+                                [
+                                    1 => 'Test',
+                                ]
                             );
 
         $this->assertEquals(
-            array(),
+            [],
             $service->getOptionNamesFromFieldDefintion(
                 $field,
                 $fieldDefinition
@@ -54,28 +53,27 @@ class EzSelectionTest extends TestCase
      */
     public function testGetOptionNamesFromFieldDefintionSingleOption()
     {
-
         $service = new EzSelection(
                         $this->getMock('eZ\\Publish\\API\\Repository\\Repository'),
-                        array('ezselection')
+                        ['ezselection']
                     );
 
-        $field = $this->getField('test', array(1));
+        $field = $this->getField('test', [1]);
 
         $fieldDefinition = $this->getFieldDefinition(
                                 'test',
                                 'ezselection',
-                                array(
+                                [
                                     1 => 'Test_1',
                                     2 => 'Test_2',
-                                    3 => 'Test_3'
-                                )
+                                    3 => 'Test_3',
+                                ]
                             );
 
         $this->assertEquals(
-            array(
-                1 => 'Test_1'
-            ),
+            [
+                1 => 'Test_1',
+            ],
             $service->getOptionNamesFromFieldDefintion(
                 $field,
                 $fieldDefinition
@@ -89,29 +87,28 @@ class EzSelectionTest extends TestCase
      */
     public function testGetOptionNamesFromFieldDefintionMultipleOptions()
     {
-
         $service = new EzSelection(
                         $this->getMock('eZ\\Publish\\API\\Repository\\Repository'),
-                        array('ezselection')
+                        ['ezselection']
                     );
 
-        $field = $this->getField('test', array(1,3));
+        $field = $this->getField('test', [1, 3]);
 
         $fieldDefinition = $this->getFieldDefinition(
                                 'test',
                                 'ezselection',
-                                array(
+                                [
                                     1 => 'Test_1',
                                     2 => 'Test_2',
-                                    3 => 'Test_3'
-                                )
+                                    3 => 'Test_3',
+                                ]
                             );
 
         $this->assertEquals(
-            array(
+            [
                 1 => 'Test_1',
-                3 => 'Test_3'
-            ),
+                3 => 'Test_3',
+            ],
             $service->getOptionNamesFromFieldDefintion(
                 $field,
                 $fieldDefinition
@@ -125,26 +122,25 @@ class EzSelectionTest extends TestCase
      */
     public function testGetOptionNamesForFieldInvalidFieldTypeException()
     {
-
         $service = $this->getMock(
-                        "Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection",
-                        array('getContentType'),
-                        array(
+                        'Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection',
+                        ['getContentType'],
+                        [
                             $this->getMock('eZ\\Publish\\API\\Repository\\Repository'),
-                            array('ezselection')
-                        )
+                            ['ezselection'],
+                        ]
                     );
 
         $fieldIdentifier = 'test';
 
         $mockContentType = $this->getMockContentType(
             'test',
-            array(
+            [
                 $this->getFieldDefinition(
                     $fieldIdentifier,
                     'ezstring'
-                )
-            )
+                ),
+            ]
         );
 
         $service->method('getContentType')
@@ -155,18 +151,17 @@ class EzSelectionTest extends TestCase
             );
 
         $content = $this->getMockContentObject(
-                        array(
+                        [
                             $this->getField(
                                 $fieldIdentifier,
-                                array(1,3)
-                            )
-                        )
+                                [1, 3]
+                            ),
+                        ]
                     );
 
         $this->setExpectedException('Bluetel\EzSelectionTwigBundle\API\FieldHelper\Exceptions\InvalidFieldTypeException');
 
         $service->getOptionNamesForField($content, $fieldIdentifier);
-
     }
 
     /**
@@ -175,32 +170,31 @@ class EzSelectionTest extends TestCase
      */
     public function testGetOptionNamesForField()
     {
-
         $service = $this->getMock(
-                        "Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection",
-                        array('getContentType'),
-                        array(
+                        'Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection',
+                        ['getContentType'],
+                        [
                             $this->getMock('eZ\\Publish\\API\\Repository\\Repository'),
-                            array('ezselection')
-                        )
+                            ['ezselection'],
+                        ]
                     );
 
         $fieldIdentifier = 'test';
 
         $mockContentType = $this->getMockContentType(
             'test',
-            array(
+            [
                 $this->getFieldDefinition(
                     $fieldIdentifier,
                     'ezselection',
-                    array(
+                    [
                         1 => 'Text_x',
                         2 => 'Text_y',
                         3 => 'Text_z',
-                        4 => 'Text_a'
-                    )
-                )
-            )
+                        4 => 'Text_a',
+                    ]
+                ),
+            ]
         );
 
         $service->method('getContentType')
@@ -211,22 +205,21 @@ class EzSelectionTest extends TestCase
             );
 
         $content = $this->getMockContentObject(
-                        array(
+                        [
                             $this->getField(
                                 $fieldIdentifier,
-                                array(1,3)
-                            )
-                        )
+                                [1, 3]
+                            ),
+                        ]
                     );
 
         $this->assertEquals(
-            array(
+            [
                 1 => 'Text_x',
-                3 => 'Text_z'
-            ),
+                3 => 'Text_z',
+            ],
             $service->getOptionNamesForField($content, $fieldIdentifier)
         );
-
     }
 
     /**
@@ -235,32 +228,31 @@ class EzSelectionTest extends TestCase
      */
     public function testGetOptionNamesForFieldFieldIdentifierNotFoundException()
     {
-
         $service = $this->getMock(
-                        "Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection",
-                        array('getContentType'),
-                        array(
+                        'Bluetel\\EzSelectionTwigBundle\\Core\\FieldHelper\\EzSelection',
+                        ['getContentType'],
+                        [
                             $this->getMock('eZ\\Publish\\API\\Repository\\Repository'),
-                            array('ezselection')
-                        )
+                            ['ezselection'],
+                        ]
                     );
 
         $fieldIdentifier = 'test';
 
         $mockContentType = $this->getMockContentType(
             'test',
-            array(
+            [
                 $this->getFieldDefinition(
                     'test_fail',
                     'ezselection',
-                    array(
+                    [
                         1 => 'Text_x',
                         2 => 'Text_y',
                         3 => 'Text_z',
-                        4 => 'Text_a'
-                    )
-                )
-            )
+                        4 => 'Text_a',
+                    ]
+                ),
+            ]
         );
 
         $service->method('getContentType')
@@ -271,58 +263,58 @@ class EzSelectionTest extends TestCase
             );
 
         $content = $this->getMockContentObject(
-                        array(
+                        [
                             $this->getField(
                                 $fieldIdentifier,
-                                array(1,3)
-                            )
-                        )
+                                [1, 3]
+                            ),
+                        ]
                     );
 
         $this->setExpectedException('Bluetel\EzSelectionTwigBundle\API\FieldHelper\Exceptions\FieldIdentifierNotFoundException');
         $service->getOptionNamesForField($content, $fieldIdentifier);
-
     }
 
     /**
      * Get a eZSelectionField value.
      *
-     * @param  string $identifier      the identifier of the field.
-     * @param  int[]  $selectedOptions array of the selected option ids for this field
+     * @param string $identifier      the identifier of the field.
+     * @param int[]  $selectedOptions array of the selected option ids for this field
      *
      * @return Field
      */
     public function getField($identifier, $selectedOptions)
     {
         return new Field(
-            array(
-                'value'=> new EzSelectionValue($selectedOptions),
+            [
+                'value'              => new EzSelectionValue($selectedOptions),
                 'fieldDefIdentifier' => $identifier,
-                'languageCode' => 'eng-GB'
-            )
+                'languageCode'       => 'eng-GB',
+            ]
         );
     }
 
     /**
      * Get a field definition object.
      *
-     * @param  string      $identifier          identifier of the field definition.
-     * @param  string      $fieldTypeIdentifier field type identifier of the field definition.
-     * @param  array|null  $fieldOptions        the additional options for this field.
+     * @param string     $identifier          identifier of the field definition.
+     * @param string     $fieldTypeIdentifier field type identifier of the field definition.
+     * @param array|null $fieldOptions        the additional options for this field.
      *
      * @return FieldDefinition
      */
     public function getFieldDefinition($identifier, $fieldTypeIdentifier, $fieldOptions = null)
     {
-        $data = array(
-                    'identifier' => $identifier,
-                    'fieldTypeIdentifier' => $fieldTypeIdentifier
-                );
+        $data = [
+                    'identifier'          => $identifier,
+                    'fieldTypeIdentifier' => $fieldTypeIdentifier,
+                ];
         if ($fieldOptions != null) {
-            $data['fieldSettings'] = array(
-                                        'options' => $fieldOptions
-                                    );
+            $data['fieldSettings'] = [
+                                        'options' => $fieldOptions,
+                                    ];
         }
+
         return new FieldDefinition(
             $data
         );
@@ -331,42 +323,41 @@ class EzSelectionTest extends TestCase
     /**
      * Get a mock ContentType with field definition in it.
      *
-     * @param  string            $identifier       the identifier of the ContentType
-     * @param  FieldDefinition[] $fieldDefinitions the field definitions of the ContentType.
+     * @param string            $identifier       the identifier of the ContentType
+     * @param FieldDefinition[] $fieldDefinitions the field definitions of the ContentType.
      *
      * @return ContentType
      */
     public function getMockContentType($identifier, $fieldDefinitions)
     {
         return new ContentType(
-            array(
-                'identifier' => $identifier,
-                'fieldDefinitions' => $fieldDefinitions
-            )
+            [
+                'identifier'       => $identifier,
+                'fieldDefinitions' => $fieldDefinitions,
+            ]
         );
     }
 
     /**
-     * Get a Mock content object
+     * Get a Mock content object.
      *
-     * @param  Field[] $fields array of the fields for the object.
+     * @param Field[] $fields array of the fields for the object.
      *
      * @return Content a content object with the fields inside.
      */
     public function getMockContentObject($fields)
     {
         return new Content(
-            array(
+            [
                 'internalFields' => $fields,
-                'versionInfo' => new VersionInfo(
-                    array(
+                'versionInfo'    => new VersionInfo(
+                    [
                         'contentInfo' => new ContentInfo(
-                            array('mainLanguageCode' => 'eng-GB')
-                        )
-                    )
-                )
-            )
+                            ['mainLanguageCode' => 'eng-GB']
+                        ),
+                    ]
+                ),
+            ]
         );
     }
-
 }
