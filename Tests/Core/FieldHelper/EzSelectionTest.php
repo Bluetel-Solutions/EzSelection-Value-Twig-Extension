@@ -1,7 +1,6 @@
 <?php
 
-
-namespace EzSystems\EzPriceBundle\Tests\Core\MultiPrice;
+namespace Bluetel\EzSelectionTwigBundle\Tests\Core\FieldHelper;
 
 use Bluetel\EzSelectionTwigBundle\Core\FieldHelper\EzSelection;
 use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
